@@ -39,3 +39,5 @@ echo ""
 echo "Audit completed successfully."
 } >> "$LOG_FILE"
 
+echo "System audit completed. Check logs in $LOG_DIR"
+
