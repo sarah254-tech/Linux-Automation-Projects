@@ -5,7 +5,7 @@ A collection of real-world automation scripts for system monitoring and maintena
 ## Project 1 — System Health Audit
 **Script:** `system_audit.sh`  
 **Purpose:** Automatically audits disk usage, memory, CPU, uptime, and active services.  
-**Output:** Log file saved in `/var/log/sys_audit/`
+**Output:** Log file saved in `/home/sara/sys_audit/`
 
 Run:
 ```bash
