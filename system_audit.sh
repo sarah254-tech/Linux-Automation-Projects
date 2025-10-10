@@ -6,9 +6,13 @@ IFS=$'\n\t'
 # Description: Linux System Health Audit Script for daily monitoring.
 
 LOG_DIR="/home/sara/sys_audit"
+mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/system_report_$(date +%F_%H-%M).log"
 
-mkdir -p "$LOG_DIR"
+# Capture all output to the log
+
+exec > >(tee -a "$LOG_FILE") 2>&1
+
 
 {
 echo "===== SYSTEM AUDIT REPORT ====="
@@ -40,4 +44,33 @@ echo "Audit completed successfully."
 } >> "$LOG_FILE"
 
 echo "System audit completed. Check logs in $LOG_DIR"
+
+# === HTML EMAIL SYSTEM AUDIT REPORT ===
+EMAIL="sarahamadi97@gmail.com"
+SUBJECT="🌐 System Audit Report - $(date +%F_%H-%M)"
+LOG_FILE="$LOG_DIR/system_report_$(date +%F).log"
+HTML_FILE="$LOG_DIR/system_report_$(date +%F).html"
+
+if [ -s "$LOG_FILE" ]; then
+    echo "Building HTML report..."
+    {
+        echo "<html><body style='font-family:Arial,sans-serif;'>"
+        echo "<h2 style='color:#2E86C1;'>🌐 System Audit Report</h2>"
+        echo "<p><b>Date:</b> $(date)</p>"
+        echo "<hr>"
+        echo "<pre style='background:#F8F9F9;padding:10px;border-radius:6px;'>"
+        cat "$LOG_FILE"
+        echo "</pre>"
+        echo "<hr>"
+        echo "<p style='color:#16A085;'>✅ Report generated successfully by system_audit.sh</p>"
+        echo "</body></html>"
+    } > "$HTML_FILE"
+
+    # Send using mutt (msmtp as backend)
+    echo "Sending HTML report to $EMAIL..."
+    mutt -e "set content_type=text/html" -s "$SUBJECT" -- "$EMAIL" < "$HTML_FILE"
+else
+    echo "No report found or log file empty."
+fi
+
 
