@@ -48,8 +48,9 @@ echo "System audit completed. Check logs in $LOG_DIR"
 # === HTML EMAIL SYSTEM AUDIT REPORT ===
 EMAIL="sarahamadi97@gmail.com"
 SUBJECT="🌐 System Audit Report - $(date +%F_%H-%M)"
-LOG_FILE="$LOG_DIR/system_report_$(date +%F).log"
-HTML_FILE="$LOG_DIR/system_report_$(date +%F).html"
+LOG_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F).log"
+HTML_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F).html"
+
 
 if [ -s "$LOG_FILE" ]; then
     echo "Building HTML report..."
