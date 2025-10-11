@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -7,7 +7,11 @@ IFS=$'\n\t'
 
 LOG_DIR="/home/sara/sys_audit"
 mkdir -p "$LOG_DIR"
-LOG_FILE="$LOG_DIR/system_report_$(date +%F_%H-%M).log"
+
+EMAIL="sarahamadi97@gmail.com"
+SUBJECT="🌐 System Audit Report - $(date +%F_%H-%M)"
+LOG_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F_%H-%M).log"
+HTML_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F_%H-%M).html"
 
 # Capture all output to the log
 
@@ -43,16 +47,13 @@ echo ""
 echo "Audit completed successfully."
 } >> "$LOG_FILE"
 
-echo "System audit completed. Check logs in $LOG_DIR"
+echo "System audit completed. Check logs in $LOG_FILE"
 
 # === HTML EMAIL SYSTEM AUDIT REPORT ===
-EMAIL="sarahamadi97@gmail.com"
-SUBJECT="🌐 System Audit Report - $(date +%F_%H-%M)"
-LOG_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F).log"
-HTML_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F).html"
-
 
 if [ -s "$LOG_FILE" ]; then
+    echo "$(date): System Audit report successfully generated from $LOG_FILE" >> "$LOG_FILE"
+
     echo "Building HTML report..."
     {
         echo "<html><body style='font-family:Arial,sans-serif;'>"
@@ -69,7 +70,7 @@ if [ -s "$LOG_FILE" ]; then
 
     # Send using mutt (msmtp as backend)
     echo "Sending HTML report to $EMAIL..."
-    mutt -e "set content_type=text/html" -s "$SUBJECT" -- "$EMAIL" < "$HTML_FILE"
+    mail -a "set content_type=text/html" -s "$SUBJECT" -- "$EMAIL" < "$HTML_FILE"
 else
     echo "No report found or log file empty."
 fi
