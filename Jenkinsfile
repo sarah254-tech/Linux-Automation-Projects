@@ -5,9 +5,8 @@ pipeline {
     IMAGE = "duckerhub254/linux-automation" 
 
     AUDIT_LOG_DIR = "${WORKSPACE}/sys_audit"
-    
+
     }
-  }
   
   stages {
     stage('Run system audit scripts') {
