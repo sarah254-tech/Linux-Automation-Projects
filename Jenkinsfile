@@ -1,20 +1,20 @@
 pipeline {
   agent { label 'linux' }
-  
+  environment {
+    // Use your actual Docker Hub username
+    IMAGE = "duckerhub254/linux-automation" 
+  }
   
   stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
-
+    
     stage('Run system audit scripts') {
       environment {
-    AUDIT_LOG_DIR = "${WORKSPACE}/audit_reports"
+    AUDIT_LOG_DIR = "${WORKSPACE}/sys_audit"
   }
       steps {
         sh '''
+        echo "Current directory: $(pwd)"
+          ls -la
           chmod +x ./system_audit.sh || true
           ./system_audit.sh
         '''
@@ -22,9 +22,7 @@ pipeline {
     }
 
     stage('Run log cleaner scripts') {
-      environment {
-    AUDIT_LOG_DIR = "${WORKSPACE}/audit_reports"
-  }
+      
       steps {
         sh '''
           chmod +x ./log_cleaner.sh || true

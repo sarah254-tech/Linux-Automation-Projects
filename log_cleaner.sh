@@ -32,6 +32,7 @@ echo "$(date): Old logs cleaned successfully from $LOG_FILE" >> "$LOG_FILE"
 } > "$HTML_FILE"
 
 # Send Email
+set +e
 if [ -s "$HTML_FILE" ]; then
 	echo "sending log cleaner report:$HTML_FILE"
 
@@ -41,5 +42,6 @@ if [ -s "$HTML_FILE" ]; then
 else
 
 echo "No report file found at $LOG_DIR"
+set -e
 
 fi

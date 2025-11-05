@@ -69,10 +69,12 @@ if [ -s "$LOG_FILE" ]; then
     } > "$HTML_FILE"
 
     # Send using mutt (msmtp as backend)
+    set +e
     echo "Sending HTML report to $EMAIL..."
     mail -a "set content_type=text/html" -s "$SUBJECT" -- "$EMAIL" < "$HTML_FILE"
 else
     echo "No report found or log file empty."
+    set -e
 fi
 
 
