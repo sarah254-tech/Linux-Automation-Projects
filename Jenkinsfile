@@ -23,7 +23,7 @@ pipeline {
 
     stage('Run log cleaner scripts') {
       environment {
-    AUDIT_LOG_DIR = "${WORKSPACE}/log_reports"
+    AUDIT_LOG_DIR = "${WORKSPACE}/audit_reports"
   }
       steps {
         sh '''
