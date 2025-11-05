@@ -5,7 +5,7 @@ IFS=$'\n\t'
 # Author: Sarah254-Tech
 # Description: Linux System Health Audit Script for daily monitoring.
 
-LOG_DIR="/home/sara/sys_audit"
+LOG_DIR="${AUDIT_LOG_DIR:-/home/sara/sys_audit}"
 mkdir -p "$LOG_DIR"
 
 EMAIL="sarahamadi97@gmail.com"

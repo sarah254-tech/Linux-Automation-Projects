@@ -10,6 +10,9 @@ pipeline {
     }
 
     stage('Run system audit scripts') {
+      environment {
+    AUDIT_LOG_DIR = "${WORKSPACE}/audit_reports"
+  }
       steps {
         sh '''
           chmod +x ./system_audit.sh || true
@@ -19,6 +22,9 @@ pipeline {
     }
 
     stage('Run log cleaner scripts') {
+      environment {
+    AUDIT_LOG_DIR = "${WORKSPACE}/log_reports"
+  }
       steps {
         sh '''
           chmod +x ./log_cleaner.sh || true
