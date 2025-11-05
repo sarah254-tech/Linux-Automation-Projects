@@ -68,17 +68,19 @@ if [ -s "$LOG_FILE" ]; then
         echo "</body></html>"
     } > "$HTML_FILE"
 
+echo "HTML report generated at: $HTML_FILE"
+echo "Email notification disabled in Jenkins environment"
     # Send using sendmail
-    set +e
-    echo "Sending HTML report to $EMAIL..."
-    {
-    echo "Subject: $SUBJECT"
-    echo "Content-Type: text/html"
-    echo
-    cat "$HTML_FILE"
+    #set +e
+    #echo "Sending HTML report to $EMAIL..."
+    #{
+    #echo "Subject: $SUBJECT"
+    #echo "Content-Type: text/html"
+    #echo
+    #cat "$HTML_FILE"
 
-    } | sendmail "$EMAIL"
-    set -e
+    #} | sendmail "$EMAIL"
+    #set -e
 fi
 
 
