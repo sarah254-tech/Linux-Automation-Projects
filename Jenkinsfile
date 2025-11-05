@@ -3,13 +3,15 @@ pipeline {
   environment {
     // Use your actual Docker Hub username
     IMAGE = "duckerhub254/linux-automation" 
+
+    environment {
+        AUDIT_LOG_DIR = "${WORKSPACE}/sys_audit"
+      }
   }
   
   stages {
     stage('Run system audit scripts') {
-      environment {
-        AUDIT_LOG_DIR = "${WORKSPACE}/sys_audit"
-      }
+      
       steps {
         sh '''
           echo "Current directory: $(pwd)"
