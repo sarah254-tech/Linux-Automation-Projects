@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 # Description: Cleans old Log files older than 7 days.
 
-LOG_DIR="/home/sara/sys_audit"
+LOG_DIR="${AUDIT_LOG_DIR:-/home/sara/sys_audit}"
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F).log"
 HTML_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F).html"
