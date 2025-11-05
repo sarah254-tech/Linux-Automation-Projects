@@ -4,9 +4,9 @@ pipeline {
     // Use your actual Docker Hub username
     IMAGE = "duckerhub254/linux-automation" 
 
-    environment {
-        AUDIT_LOG_DIR = "${WORKSPACE}/sys_audit"
-      }
+    AUDIT_LOG_DIR = "${WORKSPACE}/sys_audit"
+    
+    }
   }
   
   stages {
