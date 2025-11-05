@@ -31,17 +31,17 @@ echo "$(date): Old logs cleaned successfully from $LOG_FILE" >> "$LOG_FILE"
     echo "</body></html>"
 } > "$HTML_FILE"
 
-# Send Email
-set +e
-if [ -s "$HTML_FILE" ]; then
-	echo "sending log cleaner report:$HTML_FILE"
 
-	mutt -e "set content_type=text/html" -s "$SUBJECT" -- "$EMAIL" < "$HTML_FILE"
-	echo "Email sent to $EMAIL"
+# Send using sendmail
+    set +e
+    echo "Sending HTML report to $EMAIL..."
+    {
+    echo "Subject: $SUBJECT"
+    echo "Content-Type: text/html"
+    echo
+    cat "$HTML_FILE"
 
-else
+    } | sendmail "$EMAIL"
+    set -e
 
-echo "No report file found at $LOG_DIR"
-set -e
 
-fi

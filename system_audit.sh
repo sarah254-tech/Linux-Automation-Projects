@@ -68,12 +68,16 @@ if [ -s "$LOG_FILE" ]; then
         echo "</body></html>"
     } > "$HTML_FILE"
 
-    # Send using mutt (msmtp as backend)
+    # Send using sendmail
     set +e
     echo "Sending HTML report to $EMAIL..."
-    mail -a "set content_type=text/html" -s "$SUBJECT" -- "$EMAIL" < "$HTML_FILE"
-else
-    echo "No report found or log file empty."
+    {
+    echo "Subject: $SUBJECT"
+    echo "Content-Type: text/html"
+    echo
+    cat "$HTML_FILE"
+
+    } | sendmail "$EMAIL"
     set -e
 fi
 
