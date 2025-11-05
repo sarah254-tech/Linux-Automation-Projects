@@ -5,19 +5,14 @@ IFS=$'\n\t'
 # Author: Sarah254-Tech
 # Description: Linux System Health Audit Script for daily monitoring.
 
+# Use environment variable if set, otherwise default to /home/sara/sys_audit
 LOG_DIR="${AUDIT_LOG_DIR:-/home/sara/sys_audit}"
 mkdir -p "$LOG_DIR"
 
-EMAIL="sarahamadi97@gmail.com"
-SUBJECT="🌐 System Audit Report - $(date +%F_%H-%M)"
 LOG_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F_%H-%M).log"
 HTML_FILE="$LOG_DIR/$(basename "$0" .sh)_$(date +%F_%H-%M).html"
 
-# Capture all output to the log
-
-exec > >(tee -a "$LOG_FILE") 2>&1
-
-
+# FIXED: Simpler output handling without problematic pipe
 {
 echo "===== SYSTEM AUDIT REPORT ====="
 echo "Date: $(date)"
@@ -25,35 +20,32 @@ echo "Hostname: $(hostname)"
 echo ""
 
 echo "[1] Disk Usage:"
-df -h | grep -E '^/dev/'
+df -h | grep -E '^/dev/' || echo "No disk information available"
 echo ""
 
 echo "[2] Memory Usage:"
-free -h
+free -h || echo "No memory information available"
 echo ""
 
 echo "[3] CPU Load:"
-uptime
+uptime || echo "No uptime information available"
 echo ""
 
 echo "[4] Active Services:"
-systemctl list-units --type=service --state=running | head -15
+systemctl list-units --type=service --state=running 2>/dev/null | head -15 || echo "No systemd service information available"
 echo ""
 
 echo "[5] Network Interfaces:"
-ip addr show
+ip addr show 2>/dev/null || echo "No network information available"
 echo ""
 
 echo "Audit completed successfully."
-} >> "$LOG_FILE"
+} | tee "$LOG_FILE"
 
 echo "System audit completed. Check logs in $LOG_FILE"
 
-# === HTML EMAIL SYSTEM AUDIT REPORT ===
-
+# Generate HTML report
 if [ -s "$LOG_FILE" ]; then
-    echo "$(date): System Audit report successfully generated from $LOG_FILE" >> "$LOG_FILE"
-
     echo "Building HTML report..."
     {
         echo "<html><body style='font-family:Arial,sans-serif;'>"
@@ -68,19 +60,7 @@ if [ -s "$LOG_FILE" ]; then
         echo "</body></html>"
     } > "$HTML_FILE"
 
-echo "HTML report generated at: $HTML_FILE"
-echo "Email notification disabled in Jenkins environment"
-    # Send using sendmail
-    #set +e
-    #echo "Sending HTML report to $EMAIL..."
-    #{
-    #echo "Subject: $SUBJECT"
-    #echo "Content-Type: text/html"
-    #echo
-    #cat "$HTML_FILE"
-
-    #} | sendmail "$EMAIL"
-    #set -e
+    echo "HTML report saved to: $HTML_FILE"
+else
+    echo "No report found or log file empty."
 fi
-
-
