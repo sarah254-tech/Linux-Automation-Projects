@@ -57,4 +57,12 @@ pipeline {
       archiveArtifacts artifacts: 'sys_audit/**/*', allowEmptyArchive: true
     }
     success {
-      echo "🎉 SUCCESS: All s
+      echo "SUCCESS: All stages completed successfully!"
+    }
+    failure {
+      echo "FAILURE: Check logs above for errors."
+    }
+  }
+}
+
+   
