@@ -52,8 +52,24 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
           sh '''
-            echo $DOCKER_PASS | docker login -u "$DOCKER_USER" --password-stdin
-            docker push $IMAGE:latest
+            # echo $DOCKER_PASS | docker login -u "$DOCKER_USER" --password-stdin
+            # push $IMAGE:latest
+
+            echo "=== JENKINS CREDENTIAL DEBUG ==="
+            echo "DOCKER_USER: '$DOCKER_USER'"
+            echo "DOCKER_PASS length: ${#DOCKER_PASS}"
+            echo "DOCKER_PASS first 10 chars: '${DOCKER_PASS:0:10}'"
+            echo "DOCKER_PASS last 10 chars: '${DOCKER_PASS: -10}'"
+            
+            # Write to file to check for hidden characters
+            echo "$DOCKER_PASS" > /tmp/token.txt
+            echo "Token file size: $(wc -c < /tmp/token.txt) bytes"
+            echo "Token hex dump:"
+            hexdump -C /tmp/token.txt | head -5
+            
+            # Test the actual login
+            echo "Testing Docker login..."
+            cat /tmp/token.txt | docker login -u "$DOCKER_USER" --password-stdin
           '''
         }
       }
