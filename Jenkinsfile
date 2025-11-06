@@ -46,28 +46,15 @@ pipeline {
     }
 
     stage('Push to Docker Hub') {
-      when { 
-        expression { fileExists('Dockerfile') } 
-      }
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh '''
-           
-            echo "=== JENKINS CREDENTIAL DEBUG ==="
-            echo "DOCKER_USER: '$DOCKER_USER'"
-            echo "DOCKER_PASS length: ${#DOCKER_PASS}"
-            
-            # Test the actual login
-            echo "Testing Docker login..."
-            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            
-            echo "Pushing image..."
-            docker push $IMAGE:latest
-          '''
-        }
-      }
-    }
+  when { 
+    expression { fileExists('Dockerfile') } 
   }
+  steps {
+    sh '''
+      echo "Skipping Docker login and push for now (public image build test)"
+    '''
+  }
+}
   
   post {
     always {
