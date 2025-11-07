@@ -2,7 +2,7 @@ pipeline {
   agent { label 'linux' }
 
   environment {
-    IMAGE = "duckerhub254/linux-automation"
+    IMAGE = "dockerhub254/linux-automation"
     AUDIT_LOG_DIR = "${WORKSPACE}/sys_audit"
   }
 
@@ -46,9 +46,10 @@ pipeline {
       steps {
         script {
           docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-            def app = docker.build("dockerhub254/linux-automation:latest")
+            def app = docker.build("${IMAGE}:latest")
             app.push()
           }
+        }
       }
     }
   }
@@ -66,6 +67,8 @@ pipeline {
     }
   }
 }
-}
+
+
+
 
    
