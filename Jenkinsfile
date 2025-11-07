@@ -41,12 +41,14 @@ pipeline {
       }
     }
 
-    stage('Push to Docker Hub') {
+    stage('Build and Push to Docker Hub') {
       when { expression { fileExists('Dockerfile') } }
       steps {
-        sh '''
-          echo "Skipping Docker login and push for now (public image build test)"
-        '''
+        script {
+          docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+            def app = docker.build("dockerhub254/linux-automation:latest")
+            app.push()
+          }
       }
     }
   }
