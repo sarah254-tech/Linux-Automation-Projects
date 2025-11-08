@@ -18,6 +18,30 @@ These mini projects are structured with the healthcare domain in mind; however, 
 Healthcare systems often fetch external data (e.g., patient updates, analytics).
 This script connects to an API, fetches JSON data, and stores it locally.
 
+Note that you have to have json dependencies installed.
+
+'sudo apt install jq -y'
+
+**Common commands while writing an API script**
+**API-curl command**
+
+'curl -s' -The command-line tool for transferring data with URLs, '-s' is the silent flag - suppresses progress meters and error messages.
+'curl -s -H' - including Headers. For example: 'curl -s -H "Authorization: Bearer $TOKEN" "$API_URL" -o "$OUTPUT"'.
+'curl -s -L' - L follows redirects.
+'curl -v' - Shows connection details. Verbose output is opposite of '-s'.
+'surl -s -S' - If you want to errors despite '-s'.
+
+**JSON commands**
+
+Example: A data output of Array type
+> 'jq '.[] | {id, name, email}' "$OUTPUT" | head -5'
+
+- '.[] | {id, name, email}': The jq filter expression. '.[]' iterates over each element in a JSON array. '|' The pipe inside jq chains filter operations together.
+
+- '"$OUTPUT"': The input file containing JSON data (from your previous curl command)
+
+- '| head -5': Pipe to show only the first 5 lines of output
+
 **Scripts:** `api_data_collector.sh`
 **Other skills applied:** curl, jq, API integration
 

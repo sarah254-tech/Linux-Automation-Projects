@@ -27,6 +27,16 @@ pipeline {
       }
     }
 
+    stage('Run API data collector script') {
+      steps {
+        sh '''
+          echo "=== API Data Collector ==="
+          chmod +x ./api_data_collector.sh
+          ./api_data_collector.sh
+        '''
+      }
+    }
+
     stage('Build Docker image') {
       when { expression { fileExists('Dockerfile') } }
       steps {
