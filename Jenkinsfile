@@ -19,21 +19,20 @@ pipeline {
 
     stage('Test API Access') {
       steps {
-    sh '''
-      echo "Testing API connectivity..."
-      curl -v https://jsonplaceholder.typicode.com/users
-    '''
-    
+        sh '''
+          echo "Testing API connectivity..."
+          curl -v https://jsonplaceholder.typicode.com/users
+        '''
       }
     }
 
     stage('Fetch API Data') {
       steps {
-    sh '''
-      echo "Fetching users data..."
-      response=$(curl -s https://jsonplaceholder.typicode.com/users)
-      echo "$response" | jq .
-    '''
+        sh '''
+          echo "Fetching users data..."
+          response=$(curl -s https://jsonplaceholder.typicode.com/users)
+          echo "$response" | jq .
+        '''
       }
     }
 
