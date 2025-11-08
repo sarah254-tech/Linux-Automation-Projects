@@ -17,7 +17,8 @@ These mini projects are structured with the healthcare domain in mind; however, 
 **Objective:**
 Healthcare systems often fetch external data (e.g., patient updates, analytics).
 This script connects to an API, fetches JSON data, and stores it locally.
-
+In this exercise data was sourced from the free URL, "https://jsonplaceholder.typicode.com/users".
+ 
 Note that you have to have json dependencies installed.
 
 'sudo apt install jq -y'
