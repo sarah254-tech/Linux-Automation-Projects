@@ -11,8 +11,8 @@ pipeline {
       steps {
         sh '''
             echo "Installing required tools..."
-            apt-get update
-            apt-get install -y curl jq
+            sudo apt-get update
+            sudo apt-get install -y curl jq
             echo "Verifying installation:"
             curl --version
             jq --version
