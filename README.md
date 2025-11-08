@@ -23,8 +23,9 @@ Note that you have to have json dependencies installed.
 
 `sudo apt install jq -y`
 
-**Common commands while writing an API script**
-**API-curl command**
+### **Common commands while writing an API script**
+
+#### **API-curl command**
 
 `curl -s` -The command-line tool for transferring data with URLs, `-s` is the silent flag - suppresses progress meters and error messages.
 `curl -s -H` - including Headers. 
@@ -33,7 +34,7 @@ Note that you have to have json dependencies installed.
 `curl -v` - Shows connection details. Verbose output is opposite of `-s`.
 `curl -s -S` - If you want to see errors despite `-s`.
 
-**JSON commands**
+#### **JSON commands**
 
 Example: A data output of Array type
 > `jq '.[] | {id, name, email}' "$OUTPUT" | head -5`
