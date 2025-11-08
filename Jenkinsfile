@@ -7,19 +7,6 @@ pipeline {
   }
 
   stages {
-    stage("Install Dependecies"){
-      steps {
-        sh '''
-            echo "Installing required tools..."
-            sudo apt-get update
-            sudo apt-get install -y curl jq
-            echo "Verifying installation:"
-            curl --version
-            jq --version
-        '''
-      }
-    }
-
     stage('Run system audit scripts') {
       steps {
         sh '''
