@@ -21,27 +21,28 @@ In this exercise data was sourced from the free URL, "https://jsonplaceholder.ty
  
 Note that you have to have json dependencies installed.
 
-'sudo apt install jq -y'
+`sudo apt install jq -y`
 
 **Common commands while writing an API script**
 **API-curl command**
 
-'curl -s' -The command-line tool for transferring data with URLs, '-s' is the silent flag - suppresses progress meters and error messages.
-'curl -s -H' - including Headers. For example: 'curl -s -H "Authorization: Bearer $TOKEN" "$API_URL" -o "$OUTPUT"'.
-'curl -s -L' - L follows redirects.
-'curl -v' - Shows connection details. Verbose output is opposite of '-s'.
-'surl -s -S' - If you want to errors despite '-s'.
+`curl -s` -The command-line tool for transferring data with URLs, `-s` is the silent flag - suppresses progress meters and error messages.
+`curl -s -H` - including Headers. 
+        - For example: `curl -s -H "Authorization: Bearer $TOKEN" "$API_URL" -o "$OUTPUT"`.
+`curl -s -L` - L follows redirects.
+`curl -v` - Shows connection details. Verbose output is opposite of `-s`.
+`curl -s -S` - If you want to see errors despite `-s`.
 
 **JSON commands**
 
 Example: A data output of Array type
-> 'jq '.[] | {id, name, email}' "$OUTPUT" | head -5'
+> `jq '.[] | {id, name, email}' "$OUTPUT" | head -5`
 
-- '.[] | {id, name, email}': The jq filter expression. '.[]' iterates over each element in a JSON array. '|' The pipe inside jq chains filter operations together.
+- `.[] | {id, name, email}`: The jq filter expression. `.[] ` iterates over each element in a JSON array. '|' The pipe inside jq chains filter operations together.
 
-- '"$OUTPUT"': The input file containing JSON data (from your previous curl command)
+- `"$OUTPUT"`: The input file containing JSON data (from your previous curl command)
 
-- '| head -5': Pipe to show only the first 5 lines of output
+- `| head -5`: Pipe to show only the first 5 lines of output
 
 **Scripts:** `api_data_collector.sh`
 **Other skills applied:** curl, jq, API integration
