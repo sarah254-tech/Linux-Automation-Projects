@@ -37,6 +37,16 @@ pipeline {
       }
     }
 
+    stage('Run Service Monitor script') {
+      steps {
+        sh '''
+          echo "=== Service Monitor ==="
+          chmod +x ./service_monitor.sh
+          ./service_monitor.sh
+        '''
+      }
+    }
+
     stage('Build Docker image') {
       when { expression { fileExists('Dockerfile') } }
       steps {
