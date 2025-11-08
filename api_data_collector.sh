@@ -6,7 +6,7 @@ IFS=$'\n\t'
 
 # Description: Fetsh JSON data from an API and log important fields.
 API_URL="https://jsonplaceholder.typicode.com/users"
-OUTPUT="/home/sara/api_data.json"
+OUTPUT="${WORKSPACE:-$(pwd)}/api_data.json"
 
 echo "Fetching data from API.."
 curl -s "$API_URL" -o "$OUTPUT"
